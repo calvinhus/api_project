@@ -15,7 +15,6 @@ def get_meal(category):
     meals_dict = {}
     category_url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=" + category
 
-    print(category_url)
     response = requests.get(category_url)
     if response.status_code == 200:
         meals_list = list(response.json()['meals'])
@@ -85,10 +84,10 @@ def get_cocktail(category):
     # build final dataframe
     return pd.DataFrame([cocktails_dict])
 
-<<<<<<< HEAD
 
 def get_playlist(category):
     """comment this method"""
+    music_list = []
     username = os.environ.get("USERNAME")
     scope = os.environ.get("SCOPE")
     client_id = os.environ.get("CLIENT_ID")
@@ -115,9 +114,16 @@ def get_playlist(category):
                             headers={"Content-Type": "application/json",
                                      "Authorization": bearer})
     json_response = response.json()
-
+    artists = []
+    songs = []
     for i in json_response['tracks']:
-        print(f"\"{i['name']}\" by {i['artists'][0]['name']}")
+        # print(f"\"{i['name']}\" by {i['artists'][0]['name']}")
+        artists.append(i['artists'][0]['name'])
+        songs.append(i['name'])
+    for music in zip(artists, songs):
+        music_list.append(music)
+
+    return pd.DataFrame(music_list, columns=['Artist', 'Song'])
 
 
 def get_trivia(category):
@@ -138,19 +144,19 @@ def get_trivia(category):
             return requests.get(url).json()['activity']
     except:
         print("Sorry. Bad request.")
-=======
-def get_movies(cat):
-    movies=pd.read_csv('data\imdb_top_1000.csv')
-    movies_dict = {'romantic': 'Romance',
-                       'soft': 'Comedy', 'bold': 'Action', 'Extra bold': 'Crime'}
+
+
+def get_movies(category):
+    movies = pd.read_csv('data/imdb_top_1000.csv')
     # Drop columns we will not use
-    movies.drop(columns=['Released_Year','Certificate','Runtime','Overview','Meta_score','Director','Star1','Star2','Star3','Star4','No_of_Votes','Gross'],inplace=True)
+    movies.drop(columns=['Released_Year', 'Certificate', 'Runtime', 'Overview', 'Meta_score',
+                'Director', 'Star1', 'Star2', 'Star3', 'Star4', 'No_of_Votes', 'Gross'], inplace=True)
     # Filter movies dataframe to keep only the movies with "IMDB_Rating">= 8
-    cond=movies['IMDB_Rating']>=8
-    movies=movies[cond]
+    cond = movies['IMDB_Rating'] >= 8
+    movies = movies[cond]
     # Filter movies dataframe based on category
-    cond=movies['Genre'].str.contains(movies_dict[cat])
-    movies=movies[cond]
+    cond = movies['Genre'].str.contains(category)
+    movies = movies[cond]
+    movies.columns = ['Poster', 'Movie', 'Genre', 'IMDB_Rating']
     # Select a random movie
-    return movies.sample()[['Poster_Link','Series_Title']]
->>>>>>> 0b35fb264e287bf6442fbe3f13e48c52c7c8323a
+    return movies.sample()[['Poster', 'Movie']]
