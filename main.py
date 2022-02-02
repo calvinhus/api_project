@@ -1,5 +1,4 @@
 # import libraries
-import pandas as pd
 import api_requests as our_api
 
 print(f"\n\t\t\t---WELCOME TO DATING APP PROJECT---\n")
