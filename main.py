@@ -6,4 +6,6 @@ print(f"\n\t\t\t---WELCOME TO DATING APP PROJECT---\n")
 # date_type = input(
 #    "\nEnter the type of date you want:\n\nRomantic - [1]\nSoft - [2]\nBold - [3]\nXtra Bold - [4]\n\nYour choice:")
 
-our_api.get_meal("Vegetarian")
+#our_api.get_meal("Vegetarian")
+
+print(our_api.get_movies("romantic"))
