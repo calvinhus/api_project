@@ -1,9 +1,9 @@
 # import libraries
-import pandas as pd
 import api_requests as our_api
 
-print(f"WELCOME TO DATING APP PROJECT")
-#duration = input("enter duration: ")
-#date_type = input("enter type: ")
-movies = pd.read_csv('data/imdb_top_1000.csv')
-print(movies['Genre'].unique())
+print(f"\n\t\t\t---WELCOME TO DATING APP PROJECT---\n")
+#duration = input("\nEnter duration: ")
+# date_type = input(
+#    "\nEnter the type of date you want:\n\nRomantic - [1]\nSoft - [2]\nBold - [3]\nXtra Bold - [4]\n\nYour choice:")
+
+our_api.get_meal("Vegetarian")
