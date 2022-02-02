@@ -8,7 +8,9 @@ meal_category = {1: 'Vegetarian', 2: 'Pasta',
 
 cocktail_dict = {1: 'Non-Alcoholic', 2: 'Champagne',
                  3: 'Vodka', 4: 'Scotch'}
+
 genres_dict = {1: 'indie', 2: 'soul', 3: 'rock', 4: 'metal'}
+
 trivia_dict = {1: 'soft', 2: 'romantic', 3: 'bold', 4: 'extra bold'}
 
 
