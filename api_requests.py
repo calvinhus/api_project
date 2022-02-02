@@ -2,6 +2,11 @@
 import requests
 import random
 import pandas as pd
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy.util as util
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def get_meal(category):
@@ -9,9 +14,11 @@ def get_meal(category):
         and chooses a random one from the returned dictionary"""
     meals_dict = {}
     category_url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=" + category
-    categories = requests.get(category_url)
-    if categories.status_code == 200:
-        meals_list = list(categories.json()['meals'])
+
+    print(category_url)
+    response = requests.get(category_url)
+    if response.status_code == 200:
+        meals_list = list(response.json()['meals'])
         meal_id = random.choice(meals_list)['idMeal']
     else:
         print("Sorry. Bad request.")
@@ -32,18 +39,16 @@ def get_meal(category):
     return pd.DataFrame.from_dict([meals_dict])
 
 
-def get_cocktail(cat):
+def get_cocktail(category):
     """Document this method"""
     cocktails_dict = {}
-    ingredient_dict = {'romantic': 'champagne',
-                       'soft': 'Non_Alcoholic', 'bold': 'Vodka', 'Extra bold': 'Scotch'}
-    if cat == 'soft':
+
+    if category == 'Non-Alcoholic':
         # use the query to filter by non alcoholic drinks
         url = 'http://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic'
     else:
         # use the query to filter by ingredient
-        url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + \
-            ingredient_dict[cat]
+        url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + category
     response = requests.get(url)
     # create a list with the dictionaries for all drinks based on the category
     cocktails_list = list(response.json()['drinks'])
@@ -79,3 +84,56 @@ def get_cocktail(cat):
 
     # build final dataframe
     return pd.DataFrame([cocktails_dict])
+
+
+def get_playlist(category):
+    """comment this method"""
+    username = os.environ.get("USERNAME")
+    scope = os.environ.get("SCOPE")
+    client_id = os.environ.get("CLIENT_ID")
+    client_secret = os.environ.get("CLIENT_SECRET")
+    redirect_uri = os.environ.get("REDIRECT_URI")
+
+    token = util.prompt_for_user_token(username,
+                                       scope=scope,
+                                       client_id=client_id,
+                                       client_secret=client_secret,
+                                       redirect_uri=redirect_uri
+                                       )
+    endpoint_url = "https://api.spotify.com/v1/recommendations?"
+
+    # OUR FILTERS
+    limit = 10
+    market = "US"
+    seed_genres = category
+
+    query = f'{endpoint_url}limit={limit}&market={market}&seed_genres={seed_genres}'
+
+    bearer = "Bearer " + token
+    response = requests.get(query,
+                            headers={"Content-Type": "application/json",
+                                     "Authorization": bearer})
+    json_response = response.json()
+
+    for i in json_response['tracks']:
+        print(f"\"{i['name']}\" by {i['artists'][0]['name']}")
+
+
+def get_trivia(category):
+    """Retrieves quotes by category of dating as a conversation starter."""
+    try:
+        if category == 'soft':
+            url = "https://catfact.ninja/fact"
+            return requests.get(url).json()['fact']
+        elif category == 'romantic':
+            url = "https://poetrydb.org/random"
+            # requests.get(url).json()[0]['lines']
+            return "All you need is love."
+        elif category == 'bold':
+            url = "https://api.chucknorris.io/jokes/random"
+            return requests.get(url).json()['value']
+        else:
+            url = "http://www.boredapi.com/api/activity/"
+            return requests.get(url).json()['activity']
+    except:
+        print("Sorry. Bad request.")
