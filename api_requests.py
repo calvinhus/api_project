@@ -30,6 +30,7 @@ def get_meal(category):
             ingredients_list.append(ingredient)
     meals_dict['Ingredients'] = ingredients_list
     return pd.DataFrame.from_dict([meals_dict])
+<<<<<<< HEAD
 
 
 def get_cocktail(cat):
@@ -79,3 +80,5 @@ def get_cocktail(cat):
 
     # build final dataframe
     return pd.DataFrame([cocktails_dict])
+=======
+>>>>>>> 271950de09e3b6cea238db06ede24d7148489b71
