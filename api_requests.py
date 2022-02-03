@@ -7,6 +7,11 @@ import spotipy.util as util
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from docx import Document
+from docx.shared import Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx2pdf import convert
+
 
 
 def get_meal(category):
@@ -169,3 +174,51 @@ def get_movies(category):
     movies.columns = ['Poster', 'Movie', 'Genre', 'IMDB_Rating']
     # Select a random movie
     return movies.sample()[['Poster', 'Movie']]
+
+def to_doc(cocktail,meal):
+    cocktail_inst=cocktail['Instructions'][0].replace('\r','').replace('\n','')
+    cocktail_ingr=", ".join(cocktail['Ingredients'][0]).replace('\r','').replace('\n','')
+    cocktail_name=cocktail['Cocktail'][0]
+
+    meal_inst=meal['Instructions'][0].replace('\r','').replace('\n','')
+    meal_ingr=", ".join(cocktail['Ingredients'][0]).replace('\r','').replace('\n','')
+    meal_name=meal['Meal'][0]    
+    
+    
+    # Create the document   
+    document = Document()
+
+    document.add_heading("Recipes", 0)
+    document.add_heading("Cocktail"+' - '+cocktail_name, level=2)
+
+    p = document.add_paragraph()
+    p = document.add_paragraph()
+    run = p.add_run('Ingredients: ')
+    run.bold = True
+    p = document.add_paragraph(cocktail_ingr, style='List Bullet')
+
+    p = document.add_paragraph()
+    run = p.add_run('Recipe: ')
+    run.bold = True
+    p = document.add_paragraph(cocktail_inst, style='List Bullet')
+    
+    # Meal
+    p = document.add_paragraph()
+    document.add_heading("Meal"+' - '+meal_name, level=2)
+
+    p = document.add_paragraph()
+    p = document.add_paragraph()
+    run = p.add_run('Ingredients: ')
+    run.bold = True
+    p = document.add_paragraph(meal_ingr, style='List Bullet')
+
+    p = document.add_paragraph()
+    run = p.add_run('Recipe: ')
+    run.bold = True
+    p = document.add_paragraph(meal_inst, style='List Bullet')
+        
+    document.save('data/recipes.docx')
+
+    #convert("recipes.docx")
+    convert("data/recipes.docx", "data/recipes.pdf")
+    #convert("my_docx_folder/")

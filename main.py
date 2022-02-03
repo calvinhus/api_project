@@ -85,7 +85,7 @@ def index():
     song_url = music[2].replace('/artist/', '/embed/artist/')
     trivia = api.get_trivia(trivia_dict[date_type])
     movie = api.get_movies(movies_dict[date_type])
-
+    api.to_doc(cocktail, meal)
     # when a html request has been made return these values
     # use the dictionary {{ keys }} in the html
     templateData = {
