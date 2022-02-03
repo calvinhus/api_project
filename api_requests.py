@@ -103,7 +103,7 @@ def get_playlist(category):
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
 
     # OUR FILTERS
-    limit = 10
+    limit = 5
     market = "US"
     seed_genres = category
 
@@ -116,14 +116,18 @@ def get_playlist(category):
     json_response = response.json()
     artists = []
     songs = []
+    external_urls = []
     for i in json_response['tracks']:
         # print(f"\"{i['name']}\" by {i['artists'][0]['name']}")
         artists.append(i['artists'][0]['name'])
         songs.append(i['name'])
-    for music in zip(artists, songs):
+        external_urls.append(i['artists'][0]['external_urls']['spotify'])
+
+    for music in zip(artists, songs, external_urls):
         music_list.append(music)
 
-    return pd.DataFrame(music_list, columns=['Artist', 'Song'])
+    # pd.DataFrame(music_list, columns=['Artist', 'Song', 'URL'])
+    return random.choice(music_list)
 
 
 def get_trivia(category):
@@ -133,13 +137,14 @@ def get_trivia(category):
             url = "https://catfact.ninja/fact"
             return requests.get(url).json()['fact']
         elif category == 'romantic':
-            quotes=pd.read_csv('data/love_quotes.csv')
-            quotes=quotes.dropna()
-            quote=quotes.sample()['Quote'].values[0]
-            quote=quote.replace('“',"'").replace('”',"'").replace('’',"'").replace("—",'- ')
+            quotes = pd.read_csv('data/love_quotes.csv')
+            quotes = quotes.dropna()
+            quote = quotes.sample()['Quote'].values[0]
+            quote = quote.replace('“', "'").replace(
+                '”', "'").replace('’', "'").replace("—", '- ')
             return quote
             #url = "https://poetrydb.org/random"
-            #return "All you need is love."
+            # return "All you need is love."
         elif category == 'bold':
             url = "https://api.chucknorris.io/jokes/random"
             return requests.get(url).json()['value']

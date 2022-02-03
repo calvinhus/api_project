@@ -80,8 +80,9 @@ def index():
     meal = api.get_meal(meal_category[date_type])
     cocktail = api.get_cocktail(cocktail_dict[date_type])
     music = api.get_playlist(genres_dict[date_type])
-    music_list = [j['Song'] + ' by ' + j['Artist']
-                  for i, j in music.iterrows()]
+    #music_list = [j['Song'] + ' by ' + j['Artist'] for _, j in music.iterrows()]
+    chosen_artist = music[1]
+    song_url = music[2].replace('/artist/', '/embed/artist/')
     trivia = api.get_trivia(trivia_dict[date_type])
     movie = api.get_movies(movies_dict[date_type])
 
@@ -92,7 +93,8 @@ def index():
         'meal_image': meal['Image'][0],
         'cocktail_name': cocktail['Cocktail'][0],
         'cocktail_image': cocktail['Image'][0],
-        'music': music_list,
+        'chosen_artist': chosen_artist,
+        'song_url': song_url,
         'trivia': trivia,
         'movie_name': movie['Movie'].values[0],
         'movie_poster': movie['Poster'].values[0],

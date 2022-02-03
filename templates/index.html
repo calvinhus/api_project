@@ -46,13 +46,9 @@
         </div>
         <div class="column" style="background-color:#ffbfd3;">
             <h2>Music</h2>
-            <ul>
-                {% for song in music %}
-                <li>{{ song }}</li>
-                {% endfor %}
-            </ul>
-            <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380"
-                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <!--<p>{{ chosen_artist }}</p>-->
+            <iframe src={{ song_url }} width="300" height="200" frameborder="0" allowtransparency="true"
+                allow="encrypted-media"></iframe>
         </div>
         <div class="column" style="background-color:#ffbfd3;">
             <h2>Ice Breaker</h2>
