@@ -133,8 +133,13 @@ def get_trivia(category):
             url = "https://catfact.ninja/fact"
             return requests.get(url).json()['fact']
         elif category == 'romantic':
-            url = "https://poetrydb.org/random"
-            return "All you need is love."
+            quotes=pd.read_csv('data/love_quotes.csv')
+            quotes=quotes.dropna()
+            quote=quotes.sample()['Quote'].values[0]
+            quote=quote.replace('“',"'").replace('”',"'").replace('’',"'").replace("—",'- ')
+            return quote
+            #url = "https://poetrydb.org/random"
+            #return "All you need is love."
         elif category == 'bold':
             url = "https://api.chucknorris.io/jokes/random"
             return requests.get(url).json()['value']
