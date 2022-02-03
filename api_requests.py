@@ -134,7 +134,6 @@ def get_trivia(category):
             return requests.get(url).json()['fact']
         elif category == 'romantic':
             url = "https://poetrydb.org/random"
-            # requests.get(url).json()[0]['lines']
             return "All you need is love."
         elif category == 'bold':
             url = "https://api.chucknorris.io/jokes/random"

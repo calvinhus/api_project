@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>DatifyApp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         * {
@@ -14,6 +15,9 @@
             width: 25%;
             padding: 10px;
             height: 300px;
+            border-width: 5px;
+            border-style: solid;
+            text-align: center;
             /* Should be removed. Only for demonstration */
         }
 
@@ -28,27 +32,38 @@
 
 <body>
 
-    <h2>Four Equal Columns</h2>
-
+    <h2 style="color: #ff0065; text-align: center;">DATIFY</h2>
     <div class="row">
-        <div class="column" style="background-color:#aaa;">
-            <h2>MEAL!</h2>
-            <p>Some text..</p>
+        <div class="column" style="background-color:#ffbfd3;">
+            <h2>Meal</h2>
+            <p> {{ meal_name }}</p>
+            <a><img src={{ meal_image }} alt="MealImage" style="width:200px;height:150px;"></a>
         </div>
-        <div class="column" style="background-color:#bbb;">
-            <h2>COCKTAIL!</h2>
-            <p>Some text..</p>
+        <div class="column" style="background-color:#ffbfd3;">
+            <h2>Cocktail</h2>
+            <p> {{ cocktail_name }}</p>
+            <a><img src={{ cocktail_image }} alt="CocktailImage" style="width:200px;height:150px;"></a>
         </div>
-        <div class="column" style="background-color:#ccc;">
-            <h2>MUSIC!</h2>
-            <p>Some text..</p>
+        <div class="column" style="background-color:#ffbfd3;">
+            <h2>Music</h2>
+            <ul>
+                {% for song in music %}
+                <li>{{ song }}</li>
+                {% endfor %}
+            </ul>
+            <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380"
+                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
-        <div class="column" style="background-color:#ddd;">
-            <h2>TRIVIA!</h2>
-            <p>Some text..</p>
+        <div class="column" style="background-color:#ffbfd3;">
+            <h2>Ice Breaker</h2>
+            <p>{{ trivia }}</p>
+        </div>
+        <div class="column" style="background-color:#ffbfd3;">
+            <h2>Movie</h2>
+            <p>{{ movie_name }}</p>
+            <a><img src={{ movie_poster }} alt="MoviePoster" style="width:200px;height:150px;"></a>
         </div>
     </div>
-
 </body>
 
 </html>
