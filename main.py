@@ -34,37 +34,6 @@ def screen_clear():
     print('\n'*10)
 
 
-# def get_user_input():
-#     """This function requests an input from the user, which must be 1, 2, 3 or 4"""
-#     date_type = 0
-#     print('-'*32)
-#     print(f"| WELCOME TO DATING APP PROJECT |")
-#     print('-'*32)
-#     while date_type not in [1, 2, 3, 4]:
-#         date_type = int(input(
-#             "\nEnter the type of date you want:\n\n[1] - Soft\n[2] - Romantic\n[3] - Bold\n[4] - Extra bold\n\nYour choice: "))
-#         sleep(1)
-#         screen_clear()
-
-#     meal = api.get_meal(meal_category[date_type])
-#     cocktail = api.get_cocktail(cocktail_dict[date_type])
-#     music = api.get_playlist(genres_dict[date_type])
-#     trivia = api.get_trivia(trivia_dict[date_type])
-#     movie = api.get_movies(movies_dict[date_type])
-
-#     return meal, cocktail, music, trivia, movie
-
-
-# Ask for user input
-
-
-# print(api.get_meal(meal_category[choice]))
-# print(api.get_cocktail(cocktail_dict[date_type]))
-# print(api.get_playlist(genres_dict[date_type]))
-# print(api.get_trivia(trivia_dict[date_type]))
-# print(api.get_movies(movies_dict[date_type]))
-
-
 @app.route('/')
 def index():
     date_type = 0
@@ -99,9 +68,8 @@ def index():
         'movie_name': movie['Movie'].values[0],
         'movie_poster': movie['Poster'].values[0],
     }
-    return render_template('index.html', **templateData)
+    return render_template('index.html', value=templateData)
 
 
 if __name__ == '__main__':
-    app.jinja_env.cache = {}
-    app.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=8088, threaded=True)
